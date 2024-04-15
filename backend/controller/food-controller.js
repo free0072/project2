@@ -1,6 +1,8 @@
 const Food = require("../model/Food"); // Import the Food model
 const asyncHandler = require("express-async-handler");
 const axios = require("axios");
+const FormData = require('form-data');
+const fs = require('fs');
 require("dotenv").config()
 
 // @desc    Create a new food item
@@ -12,12 +14,12 @@ exports.createFood = asyncHandler(async (req, res) => {
   let imageUrl;
 
   if (image) {
-    const body = {
-      image: image.buffer.toString("base64"),
-    };
-
+    const form = new FormData();
+    form.append('file', image.buffer, image.originalname);
     try {
-      const driveResponse = await axios.post(`${process.env.IMAGE_UPLOAD_SERVICE_API}/drive/upload`, body);
+      const driveResponse = await axios.post(`${process.env.IMAGE_UPLOAD_SERVICE_API}/drive/upload`, form, {
+        headers: form.getHeaders(),
+      });
       imageUrl = driveResponse.data.webViewLink;
     } catch (error) {
       console.error("Error uploading to Google Drive:", error);

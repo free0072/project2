@@ -38,7 +38,6 @@ class GoogleDriveService {
         },
       });
 
-      // Construct a direct link usable in an <img> tag
       const directLink = `https://drive.google.com/uc?export=view&id=${fileId}`;
       return directLink;
     } catch (error) {
@@ -47,8 +46,6 @@ class GoogleDriveService {
     }
   }
 
-
-  // Add more methods here as needed (e.g., setPermissions, createFolder, etc.)
 }
 
 module.exports = GoogleDriveService;
